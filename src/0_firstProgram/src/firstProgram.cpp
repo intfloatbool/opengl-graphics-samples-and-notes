@@ -1,147 +1,20 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
 
-#include <string>
-#include <fstream>
+#include "../../utils/Utils.h"
+
 
 #define numVAOs 1
 
 GLuint renderingProgram;
 GLuint vao[numVAOs];
 
-std::string readShaderSource(const char* filePath)
-{
-    std::ifstream ifs(filePath);
-
-    std::string content((std::istreambuf_iterator<char>(ifs)),
-        (std::istreambuf_iterator<char>()));
-
-    if (!ifs) 
-    {
-        std::cerr << "File at path '" << filePath << "'" << " is not loaded!" << std::endl;
-    }
-    
-
-    return content;
-}
-
-void printShaderLog(GLuint shader)
-{
-    int len = 0;
-    int chWrittn = 0;
-
-    char* log;
-
-    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
-
-    if(len > 0)
-    {
-        log = (char*)malloc(len);
-        glGetShaderInfoLog(shader, len, &chWrittn, log);
-        std::cout << "Shader info log: " << log << std::endl;
-        free(log);
-    }
-}
-
-void printProgramLog(int prog)
-{
-    int len = 0;
-    int chWrittn = 0;
-
-    char* log;
-
-    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &len);
-
-    if(len > 0)
-    {
-        log = (char*)malloc(len);
-        glGetProgramInfoLog(prog, len, &chWrittn, log);
-        std::cout << "Program info log: " << log << std::endl;
-        free(log);
-    }
-}
-
-bool checkOpenGLError()
-{
-    bool foundError = false;
-    int glErr = glGetError();
-
-    while(glErr != GL_NO_ERROR)
-    {
-        std::cout << "GL Error: " << glErr << std::endl;
-        foundError = true;
-        glErr = glGetError();
-    }
-
-    return foundError;
-}
-
-GLuint createShaderProgram()
-{
-
-    GLint vertCompiled;
-    GLint fragCompiled;
-    GLint linked;
-
-    std::string vertexShaderCode = readShaderSource("assets/vertShader.glsl");
-    std::string fragmentShaderCode = readShaderSource("assets/fragShader.glsl");
-
-    const char* vShaderSource = vertexShaderCode.c_str();
-
-    const char* fShaderSource = fragmentShaderCode.c_str();
-
-    GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
-    GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    glShaderSource(vShader, 1, &vShaderSource, NULL);
-    glShaderSource(fShader, 1, &fShaderSource, NULL);
-    
-    // catch errors while compiling shaders
-    glCompileShader(vShader);
-
-    checkOpenGLError();
-    glGetShaderiv(vShader, GL_COMPILE_STATUS, &vertCompiled);
-    if(vertCompiled != 1)
-    {
-        std::cout << "Vertex shader compilation failed" << std::endl;
-        printShaderLog(vShader);
-    }
-
-    glCompileShader(fShader);
-
-    checkOpenGLError();
-    glGetShaderiv(fShader, GL_COMPILE_STATUS, &fragCompiled);
-    if(fragCompiled != 1)
-    {
-        std::cout << "Fragment shader compilation failed" << std::endl;
-        printShaderLog(fShader);
-    }
-
-    GLuint vfProgram = glCreateProgram();
-
-    // Catch errors while linking shaders
-    glAttachShader(vfProgram, vShader);
-    glAttachShader(vfProgram, fShader);
-
-    glLinkProgram(vfProgram);
-
-    checkOpenGLError();
-    glGetProgramiv(vfProgram, GL_LINK_STATUS, &linked);
-    if(linked != 1)
-    {
-        std::cout << "linking failed" << std::endl;
-        printProgramLog(vfProgram);
-    }
-
-
-
-    return vfProgram;
-}
-
 void init(GLFWwindow* window) 
 {
-    renderingProgram = createShaderProgram();
+
+    //"assets/vertShader.glsl"
+    //"assets/fragShader.glsl"
+    renderingProgram = Utils::createShaderProgram("assets/vertShader.glsl", "assets/fragShader.glsl");
 
     //prepare data to send down pipeline
     glGenVertexArrays(numVAOs, vao);

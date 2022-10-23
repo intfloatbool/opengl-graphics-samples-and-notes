@@ -1,5 +1,5 @@
 CC := g++
-TARGET := firstProgram
+TARGET := redCube
 LIBS := -lglfw -lGLU -lGL -lXrandr -lXxf86vm -lXi -lXinerama -lX11 -lrt -ldl -lGLEW
 SOURCES := $(wildcard src/*.cpp src/*/*.cpp src/*/*/*.cpp)
 COPY_ASSETS := cp -R src/assets build/assets
