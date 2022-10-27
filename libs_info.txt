@@ -1,0 +1,3 @@
+in folder libs should be:
+    libsoil2-debug.a
+    libsoil2-debug.so
