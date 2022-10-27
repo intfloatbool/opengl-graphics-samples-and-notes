@@ -1,3 +1,5 @@
-in folder libs should be:
-    libsoil2-debug.a
-    libsoil2-debug.so
+libs in usage:
+
+(build and copy in /usr/lib/x86_64-linux-gnu/, then link -lsoil2-debug)
+libsoil2-debug.a
+libsoil2-debug.so

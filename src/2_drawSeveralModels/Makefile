@@ -1,6 +1,6 @@
 CC := g++
 TARGET := severalModels
-LIBS := -lglfw -lGLU -lGL -lXrandr -lXxf86vm -lXi -lXinerama -lX11 -lrt -ldl -lGLEW
+LIBS := -lglfw -lGLU -lGL -lXrandr -lXxf86vm -lXi -lXinerama -lX11 -lrt -ldl -lGLEW -lsoil2-debug
 SOURCES := $(wildcard src/*.cpp src/*/*.cpp src/*/*/*.cpp)
 COPY_ASSETS := cp -R src/assets build/assets
 

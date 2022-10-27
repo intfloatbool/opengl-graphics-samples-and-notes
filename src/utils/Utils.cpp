@@ -127,3 +127,18 @@ void Utils::printProgramLog(int prog)
         free(log);
     }   
 }
+
+GLuint Utils::loadTexture(const char* texImagePath)
+{
+    GLuint textureId;
+
+    textureId = SOIL_load_OGL_texture(texImagePath, 
+        SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+
+    if(textureId == 0)
+    {
+        std::cout << "could not find texture file at path: " << texImagePath << std::endl;
+    }
+
+    return textureId;
+}
