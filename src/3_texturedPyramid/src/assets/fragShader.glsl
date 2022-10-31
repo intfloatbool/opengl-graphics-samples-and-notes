@@ -1,8 +1,10 @@
 #version 430
 out vec4 color;
-in vec4 varyingColor;
+in vec2 tc; //texture coordinates
+
+layout (binding = 0) uniform sampler2D samp;
 
 void main(void)
 { 
-    color = varyingColor;
+    color = texture(samp, tc);
 }
